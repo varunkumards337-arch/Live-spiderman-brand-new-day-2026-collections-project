@@ -1,0 +1,46 @@
+name: Daily Box Office Update
+
+# This is what makes the project "self-updating": GitHub itself runs this
+# workflow on a schedule, every day, forever — with zero manual work from
+# the repo owner after this file is committed once.
+
+on:
+  schedule:
+    # Runs every day at 09:00 UTC (~2:30 PM IST)
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}   # lets you also trigger it manually from the Actions tab
+
+permissions:
+  contents: write   # needed so the workflow can commit updated data/charts back
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Scrape today's box office numbers
+        run: python scripts/scrape_daily.py
+
+      - name: Regenerate charts
+        run: python scripts/analysis.py
+
+      - name: Run lifetime gross prediction model
+        run: python scripts/predict_lifetime_gross.py
+
+      - name: Commit and push updated data + charts + predictions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/scraped_daily.csv data/predictions.csv visuals/
+          git diff --quiet --cached || git commit -m "Automated daily box office update + prediction"
+          git push
