@@ -1,0 +1,41 @@
+name: Daily Box Office Update
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Scrape today's box office numbers
+        run: python scrape_daily.py
+
+      - name: Regenerate charts
+        run: python analysis.py
+
+      - name: Run lifetime gross prediction model
+        run: python predict_lifetime_gross.py
+
+      - name: Commit and push updated data + charts + predictions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add *.csv *.png
+          git diff --quiet --cached || git commit -m "Automated daily box office update + prediction"
+          git push
