@@ -4,3 +4,4 @@ prediction_date,model,prediction_usd_millions,metric,confidence_note
 2026-08-06,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
 2026-08-07,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
 2026-08-08,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
+2026-08-09,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
