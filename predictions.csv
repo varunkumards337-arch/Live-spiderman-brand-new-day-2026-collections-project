@@ -158,3 +158,5 @@ prediction_date,model,prediction_usd_millions,metric,confidence_note
 2026-10-25,decay_log_linear_regression,2517.8,worldwide_lifetime_total,"decay_ratio=0.9315, n=74 days"
 2026-10-26,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
 2026-10-26,decay_log_linear_regression,2519.7,worldwide_lifetime_total,"decay_ratio=0.932, n=75 days"
+2026-10-27,baseline_linear_regression,913.4,domestic_lifetime_total,R^2=0.909 on 5 comparable films
+2026-10-27,decay_log_linear_regression,2550.4,worldwide_lifetime_total,"decay_ratio=0.9348, n=76 days"
